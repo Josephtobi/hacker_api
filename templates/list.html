@@ -1,0 +1,69 @@
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Joseph Project</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://hackerapi.josephtobi.repl.co">Project Overview
+            <span class="visually-hidden"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://hackerapi.josephtobi.repl.co/news/news/">News
+            <span class="visually-hidden"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://hackerapi.josephtobi.repl.co/swagger/">Documentation to API</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Filter</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">News</a>
+          </div>
+        </li>
+      </ul>
+      <form class="d-flex" method="post">
+        {% csrf_token %}
+        <input class="form-control me-sm-2" type="text" placeholder="Search" name="search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
+{% for data in dataset %}
+
+<a href="https://hackerapi.josephtobi.repl.co/news/news/d/{{data.id1}}"><li>{{data.title}}</li></a>
+
+<hr/>
+{% empty %}
+<h6>No result Found</h6>
+{% endfor %}
+
+<div class='pagination justify-content-center mt-5'>
+    {% if dataset.has_previous %}
+      <a href='{% url "news" dataset.previous_page_number %}'>Previous </a>
+    {% endif %}
+
+    <span class='mx-4'>
+      Page {{ dataset.number }} of {{ dataset.paginator.num_pages }}
+    </span>
+
+    {% if dataset.has_next %}
+      <a href='{% url "news" dataset.next_page_number %}' > Next</a>
+    {% endif %}
+  </div>
+
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
